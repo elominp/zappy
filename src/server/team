@@ -1,0 +1,313 @@
+t_chan.c:  ERR("CHANNEL %s -------------------------\n", c->name ? c->name : "NULL)");
+t_chan.c:  c->clients->print(c->clients, NULL);
+t_chan.c:  if (c->name)
+t_chan.c:    free(c->name);
+t_chan.c:  if (c->clients)
+t_chan.c:    c->clients->destruct(&c->clients, free);
+t_chan.c:  c->name = strdup(name);
+t_chan.c:  if (!c->name)
+t_chan.c:  if (!(c->clients = new_list()))
+main.c:  if (!(msg = LIST_FIRST_DATA(c->commands)))
+main.c:  if (c->servptr->current_time > msg->exec_after)
+main.c:      list_rm_first_node(c->commands, &delete_t_msg);
+main.c:      if ((msg = LIST_FIRST_DATA(c->commands)) &&
+enqueue_msg.c:  if (!c || !msg || !c->outqueue)
+enqueue_msg.c:  if (!(c->outqueue->append(&c->outqueue, pack)))
+select.c:  FD_SET(c->sock.fd, &c->servptr->fdset_read);
+select.c:  FD_SET(c->sock.fd, &c->servptr->fdset_write);
+select.c:  if (c->sock.fd > c->servptr->maxfd)
+select.c:    c->servptr->maxfd = c->sock.fd;
+client_input.c:  if (FD_ISSET(c->sock.fd, &c->servptr->fdset_read))
+client_input.c:      DEBUG("Processing client %d\n", c->sock.fd);
+client_input.c:      if ((rd = read(c->sock.fd, buf, sizeof(buf) - 1)) <= 0)
+client_input.c:          ERR(YELLOW"Client %d disconnected\n"WHITE, c->sock.fd);
+client_input.c:          kick_client(c->servptr, c->sock.fd);
+client_input.c:      c->buffer.overwrite(&c->buffer, buf, rd);
+process_output.c:  if (!c || !c->outqueue ||
+process_output.c:      !fd_is_ready_to_write(c->sock.fd) ||
+process_output.c:      !(pack = LIST_FIRST_DATA(c->outqueue)))
+process_output.c:  if (FAILS(ret = write((c->sock.fd),
+process_output.c:      TRACE(RED"write failed for client %d !"WHITE, c->sock.fd);
+process_output.c:    c->outqueue->rm_first_node(c->outqueue, &delete_t_pack_hook);
+circular.c:  c->x = (c->x < 0)
+circular.c:    ? ((c->x % map->width) * (-1))
+circular.c:    : (c->x % map->width);
+circular.c:  c->y = (c->y < 0)
+circular.c:    ? ((c->y % map->height) * (-1))
+circular.c:    : (c->y % map->height);
+client/init_vars.c:  c->servptr = s;
+client/init_vars.c:  c->level = 1;
+client/init_vars.c:  c->direction = rand() % 4;
+client/init_vars.c:  c->x_pos = rand() % c->servptr->map.width;
+client/init_vars.c:  c->y_pos = rand() % c->servptr->map.height;
+client/take_from_client.c:  if (!c || !c->inventory || quantity <= 0                      ||
+client/take_from_client.c:      !(item = ht_get_entry(c->inventory, str, strlen(str)))    ||
+client/take_from_client.c:  if (!c || !c->inventory || quantity <= 0                      ||
+client/take_from_client.c:  if (!(item = ht_get_entry(c->inventory, str, strlen(str))))
+client/take_from_client.c:      if (!ht_add_entry(c->inventory, item, str, strlen(str)))
+client/t_cli.c:  t_circ_dest(&c->buffer);
+client/t_cli.c:  if (ISVALIDFD(c->sock.fd))
+client/t_cli.c:      shutdown(c->sock.fd, SHUT_RDWR);
+client/t_cli.c:      close(c->sock.fd);
+client/t_cli.c:  if (c->ip)
+client/t_cli.c:    free(c->ip);
+client/t_cli.c:  if (c->outqueue)
+client/t_cli.c:    c->outqueue->destruct(&c->outqueue, &delete_t_pack_hook);
+client/t_cli.c:  if (c->inventory)
+client/t_cli.c:    ht_free(c->inventory, &free);
+client/t_cli.c:  if (c->commands)
+client/t_cli.c:    list_destruct(&c->commands, &delete_t_msg);
+client/t_cli.c:  if (!(c->inventory = ht_init(2)))
+client/t_cli.c:  if ((!(c->outqueue = new_list()))
+client/t_cli.c:      || (!(t_circ_const(&c->buffer, CIRCULAR_BUF_SIZE)))
+client/t_cli.c:      || (!(c->commands = new_list())))
+client/t_cli.c:  sz = sizeof(c->sock.sin);
+client/t_cli.c:  c->sock.fd = accept(s->connectsock.fd, (struct sockaddr*)&c->sock.sin, &sz);
+client/t_cli.c:  if (c->sock.fd == -1)
+client/t_cli.c:  c->ip = strdup(inet_ntoa(c->sock.sin.sin_addr));
+client/t_cli.c:  if (!c->ip)
+exec.c:  if (!c->commands || !msg)
+exec.c:  if (list_len(c->commands) >= 10 && !c->is_graphic)
+exec.c:  if (!list_append(&c->commands, msg))
+exec.c:  if (!c->team)
+exec.c:  else if (c->is_graphic)
+exec.c:            (g_cmdtoaifunc[i].delay / (c->servptr->opt->time ?
+exec.c:                                       c->servptr->opt->time : 1));
+commands/graphic/events/pnw.c:  if (!c->team || !c->team->name || !strcmp(c->team->name, "GRAPHIC"))
+commands/graphic/events/pnw.c:	   c->sock.fd,
+commands/graphic/events/pnw.c:	   c->x_pos,
+commands/graphic/events/pnw.c:	   c->y_pos,
+commands/graphic/events/pnw.c:	   c->direction,
+commands/graphic/events/pnw.c:	   c->level,
+commands/graphic/events/pnw.c:	   c->team->name);
+commands/graphic/events/pnw.c:  ht_foreach(c->servptr->clients, &send_to_graph_client);
+commands/graphic/events/pbc.c:  i = snprintf(buff, 32, "pbc %d ", c->sock.fd);
+commands/graphic/events/pbc.c:  ht_foreach(c->servptr->clients, &send_to_graph_client);
+commands/graphic/events/pdr.c:           "pdr %d %d\n", c->sock.fd, dropped_ressource);
+commands/graphic/events/pdr.c:  ht_foreach(c->servptr->clients, &send_to_graph_client);
+commands/graphic/events/eht.c:  if (!c->team)
+commands/graphic/events/eht.c:  if (c->team && c->team->name && !strcmp(c->team->name, "GRAPHIC"))
+commands/graphic/events/eht.c:  egg = c->
+commands/graphic/events/eht.c:  ht_foreach(c->servptr->clients, &send_to_graph_client);
+commands/graphic/events/ebo.c:  if (!c->team || !c->team->name || !strcmp(c->team->name, "GRAPHIC"))
+commands/graphic/events/ebo.c:  egg = c->team->eggs_sorted->first->data;
+commands/graphic/events/ebo.c:  ht_foreach(c->servptr->clients, &send_to_graph_client);
+commands/graphic/events/pie.c:  if (!(c = voidcli) || !c->is_graphic)
+commands/graphic/events/pie.c:           "pie %ld %ld %d\n", c->x_pos, c->y_pos, g_success);
+commands/graphic/events/pie.c:  ht_foreach(c->servptr->clients, &callback);
+commands/graphic/events/pfk.c:  if (!c->team || !c->team->name || !strcmp(c->team->name, "GRAPHIC"))
+commands/graphic/events/pfk.c:  snprintf(g_buff, 50, "pfk %d\n", c->sock.fd);
+commands/graphic/events/pfk.c:  ht_foreach(c->servptr->clients, &send_to_graph_client);
+commands/graphic/events/pex.c:  snprintf(buff, 32, "pex %d\n", c->sock.fd);
+commands/graphic/events/pex.c:  ht_foreach(c->servptr->clients, &send_to_graph_client);
+commands/graphic/events/pic.c:	   c->servptr->map.width,
+commands/graphic/events/pic.c:	   c->servptr->map.height,
+commands/graphic/events/pic.c:	   c->sock.fd);
+commands/graphic/events/pic.c:  ht_foreach(c->servptr->clients, &send_to_graph_client);
+commands/graphic/events/pgt.c:           "pgt %d %d\n", c->sock.fd, taken_ressource);
+commands/graphic/events/pgt.c:  ht_foreach(c->servptr->clients, &send_to_graph_client);
+commands/graphic/events/smg.c:  ht_foreach(c->servptr->clients, &send_to_graph_client);
+commands/graphic/events/enw.c:  if (c->team && c->team->name && !strcmp(c->team->name, "GRAPHIC"))
+commands/graphic/events/enw.c:  egg = c->team->eggs_sorted->last->data;
+commands/graphic/events/enw.c:  snprintf(g_buff, 50, "enw %lu %u %ld %ld\n", egg->id, c->sock.fd,
+commands/graphic/events/enw.c:           c->x_pos, c->y_pos);
+commands/graphic/events/enw.c:  ht_foreach(c->servptr->clients, &send_to_graph_client);
+commands/graphic/events/pdi.c:  snprintf(buff, 32, "pdi %d\n", c->sock.fd);
+commands/graphic/events/pdi.c:  ht_foreach(c->servptr->clients, &send_to_graph_client);
+commands/graphic/events/seg.c:  if (!c->team || !c->team->name || !strcmp(c->team->name, "GRAPHIC"))
+commands/graphic/events/seg.c:  snprintf(g_buff, 50, "seg %s\n", c->team->name);
+commands/graphic/events/seg.c:  ht_foreach(c->servptr->clients, &send_to_graph_client);
+commands/graphic/responses/sgt.c:  snprintf(buff, 32, "sgt %lu\n", c->servptr->opt->time);
+commands/graphic/responses/bct.c:  circular(&c->servptr->map, pos);
+commands/graphic/responses/bct.c:      (tile = t_map_at(&c->servptr->map, pos)) == NULL)
+commands/graphic/responses/bct.c:	  __func__, c->sock.fd, c->team->name);
+commands/graphic/responses/sst.c:          __func__, c->sock.fd, c->team->name);
+commands/graphic/responses/sst.c:    c->servptr->opt->time = new_time;
+commands/graphic/responses/sst.c:    c->servptr->opt->time = 1000;
+commands/graphic/responses/sst.c:  i += snprintf(buff, 32 - i, "%lu\n", c->servptr->opt->time);
+commands/graphic/responses/plv.c:  cl = (t_cli *)ht_get_entry(c->servptr->clients, &id, sizeof(c->sock.fd));
+commands/graphic/responses/plv.c:		 __func__, c->sock.fd, c->team->name)), false);
+commands/graphic/responses/mct.c:  xmax = c->servptr->map.width;
+commands/graphic/responses/mct.c:  ymax = c->servptr->map.height;
+commands/graphic/responses/tna.c:  if ((current = get_first_team(c->servptr)) == NULL)
+commands/graphic/responses/tna.c:	  __func__, c->sock.fd, c->team->name);
+commands/graphic/responses/pin.c:  return ((t_cli *)ht_get_entry(c->servptr->clients, &id, sizeof(c->sock.fd)));
+commands/graphic/responses/pin.c:		 __func__, c->sock.fd, c->team->name)), false);
+commands/graphic/responses/msz.c:           c->servptr->map.width,
+commands/graphic/responses/msz.c:           c->servptr->map.height);
+commands/graphic/responses/ppo.c:  return ((t_cli *)ht_get_entry(c->servptr->clients, &id, sizeof(c->sock.fd)));
+commands/graphic/responses/ppo.c:		 __func__, c->sock.fd, c->team->name)), false);
+commands/ai/connect_nbr.c:  nb = (c->servptr->opt->max_clients - team->nb_members);
+commands/ai/connect_nbr.c:      __func__, c->sock.fd, c->team->name);
+commands/ai/connect_nbr.c:  if (!c->team->name || !(cur = LIST_FIRST_NODE(c->servptr->teams)))
+commands/ai/connect_nbr.c:    return (ERR(RED"no team, client %d\n"WHITE, c->sock.fd), false);
+commands/ai/connect_nbr.c:          && !strcmp(c->team->name, team->name))
+commands/ai/expulse.c:  c->x_pos += corresp[direction].x;
+commands/ai/expulse.c:  c->y_pos += corresp[direction].y;
+commands/ai/expulse.c:  c->x_pos = (c->x_pos < 0)
+commands/ai/expulse.c:    ? (c->servptr->map.width - 1)
+commands/ai/expulse.c:    : (c->x_pos % c->servptr->map.width);
+commands/ai/expulse.c:  c->y_pos = (c->y_pos < 0)
+commands/ai/expulse.c:    ? (c->servptr->map.height - 1)
+commands/ai/expulse.c:    : (c->y_pos % c->servptr->map.height);
+commands/ai/expulse.c:  if (c->x_pos != g_coord.x
+commands/ai/expulse.c:      || c->y_pos != g_coord.y
+commands/ai/expulse.c:      || g_expulser_id == c->sock.fd
+commands/ai/expulse.c:      || c->is_graphic)
+commands/ai/expulse.c:  g_coord.x     = c->x_pos;
+commands/ai/expulse.c:  g_coord.y     = c->y_pos;
+commands/ai/expulse.c:  g_expulser_id = c->sock.fd;
+commands/ai/expulse.c:  g_direction   = c->direction;
+commands/ai/expulse.c:      __func__, c->sock.fd, c->team->name);
+commands/ai/expulse.c:  ht_foreach(c->servptr->clients, &expulse_callback);
+commands/ai/players_on_tile.c:  g_pos.x = pos.x % c->servptr->map.width;
+commands/ai/players_on_tile.c:  g_pos.y = pos.y % c->servptr->map.height;
+commands/ai/players_on_tile.c:  ht_foreach(c->servptr->clients, &count_players);
+commands/ai/incantation.c:      __func__, c->sock.fd, c->team->name);
+commands/ai/incantation.c:  if (c->level > 7)
+commands/ai/incantation.c:  if (!tile_meets_prerequisites((c->servptr),
+commands/ai/incantation.c:                                (t_coord){ c->x_pos, c->y_pos },
+commands/ai/incantation.c:                                (c->level)))
+commands/ai/incantation.c:    return (pie(c, 0), same_level_at(c->servptr,
+commands/ai/incantation.c:                                     &(t_coord){c->x_pos, c->y_pos},
+commands/ai/incantation.c:                                     c->level), false);
+commands/ai/incantation.c:  remove_incantation_ressources_from_map(c->servptr,
+commands/ai/incantation.c:                                         &(t_coord){ c->x_pos, c->y_pos },
+commands/ai/incantation.c:                                         c->level);
+commands/ai/incantation.c:  upgrade_players_at(c->servptr, &(t_coord){c->x_pos, c->y_pos}, c->level);
+commands/ai/incantation.c:  if (c->level == 8)
+commands/ai/droite.c:      __func__, c->sock.fd, c->team->name);
+commands/ai/droite.c:  c->direction = g_to[c->direction];
+commands/ai/droite.c:      g_direction_str[c->direction]);
+commands/ai/incantation/count_players.c:  co.x = c->x_pos;
+commands/ai/incantation/count_players.c:  co.y = c->y_pos;
+commands/ai/incantation/count_players.c:      c->level == g_level && !c->is_graphic)
+commands/ai/incantation/upgrade_players.c:  if (!(c = voidclient) || c->is_graphic)
+commands/ai/incantation/upgrade_players.c:  co.x = c->x_pos;
+commands/ai/incantation/upgrade_players.c:  co.y = c->y_pos;
+commands/ai/incantation/upgrade_players.c:  if (g_coord.x == co.x && g_coord.y == co.y && c->level == g_level &&
+commands/ai/incantation/upgrade_players.c:      !c->is_graphic)
+commands/ai/incantation/upgrade_players.c:      ++c->level;
+commands/ai/incantation/upgrade_players.c:      TRACE(DGREEN"client %d is now level %d"WHITE, c->sock.fd, c->level);
+commands/ai/incantation/upgrade_players.c:      snprintf(buffer, sizeof(buffer), "niveau actuel : %d\n", c->level);
+commands/ai/incantation/upgrade_players.c:      if (c->level == 8)
+commands/ai/incantation/upgrade_players.c:               (c->team && c->team->name)
+commands/ai/incantation/upgrade_players.c:               ? c->team->name : PINK"NULL"WHITE);
+commands/ai/incantation/upgrade_players.c:          c->servptr->exit = true;
+commands/ai/incantation/upgrade_players.c:  co.x = c->x_pos;
+commands/ai/incantation/upgrade_players.c:  co.y = c->y_pos;
+commands/ai/incantation/upgrade_players.c:  if (g_coord.x == co.x && g_coord.y == co.y && c->level == g_level &&
+commands/ai/incantation/upgrade_players.c:      !c->is_graphic)
+commands/ai/incantation/upgrade_players.c:            c->sock.fd, c->level, c->is_graphic ? "(graphic client :p)" : "");
+commands/ai/incantation/upgrade_players.c:      snprintf(buffer, sizeof(buffer), "niveau actuel : %d\n", c->level);
+commands/ai/inventaire.c:  if (!(itemstack = ht_get_entry(c->inventory, res, strlen(res))))
+commands/ai/inventaire.c:  __func__, c->sock.fd, c->team->name);
+commands/ai/pose.c:      __func__, c->sock.fd, c->team->name);
+commands/ai/pose.c:      !(item = ht_get_entry(c->inventory, what_type, strlen(what_type)))  ||
+commands/ai/pose.c:      !(tile = t_map_at(&c->servptr->map, (t_coord){ c->x_pos, c->y_pos })))
+commands/ai/pose.c:  t_map_add_item(&c->servptr->map, get_rsrc_enum_from_string(what_type),
+commands/ai/pose.c:                 (t_coord){ c->x_pos, c->y_pos }, 1);
+commands/ai/pose.c:  ht_print(c->inventory, &dump_tile);
+commands/ai/prend.c:  if (c->is_graphic)
+commands/ai/prend.c:      if ((tile = t_map_at(&c->servptr->map, pos)) == NULL)
+commands/ai/prend.c:      __func__, c->sock.fd, c->team->name);
+commands/ai/prend.c:      !t_map_take_item(&c->servptr->map,
+commands/ai/prend.c:                       (t_coord){ c->x_pos, c->y_pos }, 1))
+commands/ai/prend.c:  if ((item = ht_get_entry(c->inventory, what_type, strlen(what_type))))
+commands/ai/prend.c:      repop_resource(get_rsrc_enum_from_string(what_type), c->servptr);
+commands/ai/prend.c:  if (!ht_add_entry(c->inventory, item, what_type, strlen(what_type)))
+commands/ai/prend.c:  ht_print(c->inventory, &dump_tile);
+commands/ai/prend.c:  repop_resource(get_rsrc_enum_from_string(what_type), c->servptr);
+commands/ai/voir.c:  for (y = 0; y <= c->level; ++y)
+commands/ai/voir.c:          real_x = ((c->x_pos + (x * g_coef[c->direction].x)));
+commands/ai/voir.c:          real_y = ((c->y_pos + (y * g_coef[c->direction].y)));
+commands/ai/voir.c:          tile = t_map_at(&c->servptr->map, (t_coord){real_x, real_y});
+commands/ai/voir.c:          print_str_to_buffer(((y == c->level && x == y)) ? "" : ",");
+commands/ai/voir.c:  for (x = 0; x <= c->level; ++x)
+commands/ai/voir.c:          real_x = ((c->x_pos + (x * g_coef[c->direction].x)));
+commands/ai/voir.c:          real_y = ((c->y_pos + (y * g_coef[c->direction].y)));
+commands/ai/voir.c:          tile = t_map_at(&c->servptr->map, (t_coord){real_x, real_y});
+commands/ai/voir.c:          print_str_to_buffer(((y == c->level && x == y)) ? "" : ",");
+commands/ai/voir.c:      __func__, c->sock.fd, c->team->name);
+commands/ai/voir.c:  if (c->direction == UP || c->direction == DOWN)
+commands/ai/broadcast/convert_direction.c:  if (c->direction > 3 || min_index > 8)
+commands/ai/broadcast/convert_direction.c:  return (g_corresp[c->direction][min_index]);
+commands/ai/avance.c:      __func__, c->sock.fd, c->team->name);
+commands/ai/avance.c:  c->x_pos += g_direction[c->direction].x;
+commands/ai/avance.c:  c->y_pos += g_direction[c->direction].y;
+commands/ai/avance.c:  c->x_pos = (c->x_pos < 0)
+commands/ai/avance.c:    ? (c->servptr->map.width - 1)
+commands/ai/avance.c:    : c->x_pos % c->servptr->map.width;
+commands/ai/avance.c:  c->y_pos = (c->y_pos < 0)
+commands/ai/avance.c:    ? (c->servptr->map.height - 1)
+commands/ai/avance.c:    : c->y_pos % c->servptr->map.height;
+commands/ai/avance.c:      c->x_pos, c->y_pos);
+commands/ai/broadcast.c:  diff[M_SAME_TILE ].x = (c->x             - g_origin.x);
+commands/ai/broadcast.c:  diff[M_SAME_TILE ].y = (c->y             - g_origin.y);
+commands/ai/broadcast.c:  diff[M_UP        ].x = (c->x             - g_origin.x);
+commands/ai/broadcast.c:  diff[M_UP        ].y = (circ_y(c->y - 1) - g_origin.y);
+commands/ai/broadcast.c:  diff[M_DOWN      ].x = (c->x             - g_origin.x);
+commands/ai/broadcast.c:  diff[M_DOWN      ].y = (circ_y(c->y + 1) - g_origin.y);
+commands/ai/broadcast.c:  diff[M_RIGHT     ].x = (circ_x(c->x + 1) - g_origin.x);
+commands/ai/broadcast.c:  diff[M_RIGHT     ].y = (circ_y(c->y)     - g_origin.y);
+commands/ai/broadcast.c:  diff[M_LEFT      ].x = (circ_x(c->x - 1) - g_origin.x);
+commands/ai/broadcast.c:  diff[M_LEFT      ].y = (circ_y(c->y)     - g_origin.y);
+commands/ai/broadcast.c:  diff[M_UP_LEFT   ].x = (circ_x(c->x - 1) - g_origin.x);
+commands/ai/broadcast.c:  diff[M_UP_LEFT   ].y = (circ_y(c->y - 1) - g_origin.y);
+commands/ai/broadcast.c:  diff[M_UP_RIGHT  ].x = (circ_x(c->x + 1) - g_origin.x);
+commands/ai/broadcast.c:  diff[M_UP_RIGHT  ].y = (circ_y(c->y - 1) - g_origin.y);
+commands/ai/broadcast.c:  diff[M_DOWN_RIGHT].x = (circ_x(c->x + 1) - g_origin.x);
+commands/ai/broadcast.c:  diff[M_DOWN_RIGHT].y = (circ_y(c->y + 1) - g_origin.y);
+commands/ai/broadcast.c:  diff[M_DOWN_LEFT ].x = (circ_x(c->x - 1) - g_origin.x);
+commands/ai/broadcast.c:  diff[M_DOWN_LEFT ].y = (circ_y(c->y + 1) - g_origin.y);
+commands/ai/broadcast.c:  if (!(c = voidclient) || c->is_graphic)
+commands/ai/broadcast.c:  ERR(WWHITE"CLIENT %d\n"WHITE, c->sock.fd);
+commands/ai/broadcast.c:  build_coordinates_diff(&(t_coord){c->x_pos, c->y_pos}, diff);
+commands/ai/broadcast.c:  min_index = convert_index_according_to_direction(c, c->direction, min_index);
+commands/ai/broadcast.c:  if (c->sock.fd != g_calling_client_id)
+commands/ai/broadcast.c:      __func__, c->sock.fd, c->team->name);
+commands/ai/broadcast.c:  g_map = &c->servptr->map;
+commands/ai/broadcast.c:  g_origin.x = c->x_pos;
+commands/ai/broadcast.c:  g_origin.y = c->y_pos;
+commands/ai/broadcast.c:  g_calling_client_id = c->sock.fd;
+commands/ai/broadcast.c:  ht_foreach(c->servptr->clients, &for_serv_clients_as_client);
+commands/ai/fork.c:      __func__, c->sock.fd, c->team->name);
+commands/ai/fork.c:  c->servptr->prev_egg_id += 1;
+commands/ai/fork.c:  egg->id = c->servptr->prev_egg_id;
+commands/ai/fork.c:  egg->x = c->x_pos;
+commands/ai/fork.c:  egg->y = c->y_pos;
+commands/ai/fork.c:  ht_add_entry(c->team->eggs, egg, &(egg->id), sizeof(egg->id));
+commands/ai/fork.c:  list_prepend(&(c->team->eggs_sorted), egg);
+commands/ai/fork.c:  c->team->nb_slots += 1;
+commands/ai/gauche.c:           c->sock.fd,
+commands/ai/gauche.c:           c->x_pos,
+commands/ai/gauche.c:           c->y_pos,
+commands/ai/gauche.c:           to_graphical_dir(c->direction));
+commands/ai/gauche.c:  ht_foreach(c->servptr->clients, &servclient_as_client);
+commands/ai/gauche.c:      __func__, c->sock.fd, c->team->name);
+commands/ai/gauche.c:  c->direction = g_to[c->direction % 4];
+commands/ai/gauche.c:      g_direction_str[c->direction % 4]);
+commands/try_join_team_static.c:    if ((c = ptr) == NULL || gui == NULL || c->is_graphic) ||
+commands/try_join_team_static.c:      !c->team || !c->team->name)
+commands/try_join_team_static.c:             c->sock.fd,
+commands/try_join_team_static.c:             c->x_pos,
+commands/try_join_team_static.c:             c->y_pos,
+commands/try_join_team_static.c:             c->direction,
+commands/try_join_team_static.c:             c->level,
+commands/try_join_team_static.c:             c->team->name);
+commands/try_join_team_static.c:        c->x_pos = egg->x;
+commands/try_join_team_static.c:        c->y_pos = egg->y;
+commands/try_join_team_static.c:    for (int64_t i = 0; i < c->servptr->map.height; i++)
+commands/try_join_team_static.c:        for (int64_t j = 0; j < c->servptr->map.width; j++)
+commands/try_join_team_static.c:    ht_foreach(c->servptr->clients, pnw_init);
+commands/try_join_team_static.c:    list_for_each(c->servptr->teams, enw_init_list, NULL);
+commands/try_join_team.c:  snprintf(buffer, sizeof(buffer), "%d\n", c->sock.fd);
+commands/try_join_team.c:           c->servptr->map.width,
+commands/try_join_team.c:           c->servptr->map.height);
+commands/try_join_team.c:  ERR(GREEN"Client %d joined %s\n"WHITE, c->sock.fd, team);
+commands/try_join_team.c:  c->is_graphic = strcmp(team, GRAPHIC_TEAM_NAME) ? false : true;
+commands/try_join_team.c:  c->team = curteam;
+commands/try_join_team.c:  if (c->is_graphic)
+commands/try_join_team.c:  if (!c || !team || c->team || !c->servptr || !c->servptr->teams ||
+commands/try_join_team.c:      (!(cur = c->servptr->teams->first)))
+commands/try_join_team.c:    return (kick_client(c->servptr, c->sock.fd), false);

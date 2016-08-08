@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/zappy/launcher">
+        <file>ZappyLauncher/background.png</file>
+    </qresource>
+</RCC>
